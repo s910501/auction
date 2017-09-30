@@ -8,6 +8,17 @@ import { SearchComponent } from './search/search.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { ProductComponent } from './product/product.component';
 import { StarsComponent } from './stars/stars.component';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { HomeComponent } from './home/home.component';
+import {RouterModule, Routes} from "@angular/router";
+import {ProductService} from "./shared/product.service";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { FilterPipe } from './pipe/filter.pipe';
+
+const routeConfig: Routes = [
+  {path: '', component: HomeComponent},
+  {path: 'product/:productId', component: ProductDetailComponent}
+]
 
 @NgModule({
   declarations: [
@@ -17,12 +28,18 @@ import { StarsComponent } from './stars/stars.component';
     SearchComponent,
     CarouselComponent,
     ProductComponent,
-    StarsComponent
+    StarsComponent,
+    ProductDetailComponent,
+    HomeComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
+    RouterModule.forRoot(routeConfig),
+    ReactiveFormsModule,
+    FormsModule,
   ],
-  providers: [],
+  providers: [ProductService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
