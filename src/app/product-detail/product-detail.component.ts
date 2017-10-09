@@ -10,6 +10,9 @@ import {Comment, Product, ProductService} from "../shared/product.service";
 export class ProductDetailComponent implements OnInit {
   product: Product;
   comments: Comment[];
+  newRating: number = 5;
+  newComment: string = '';
+  isCommentHidden = true;
   constructor(private routeInfo: ActivatedRoute, private productService: ProductService) { }
 
   ngOnInit() {
@@ -17,6 +20,17 @@ export class ProductDetailComponent implements OnInit {
     this.product = this.productService.getProduct(productId);
     this.comments = this.productService.getCommentsForProductId(productId);
     // this.productTitle = this.routeInfo.snapshot.params['prodTitle'];
+  }
+  addComment() {
+    let comment = new Comment(0, this.product.id, new Date().toISOString(), "someone", this.newRating, this.newComment);
+    this.comments.unshift(comment);
+    // console.log(this.comments);
+    let sum = this.comments.reduce((sum, comment) => sum + comment.rating, 0);
+    this.product.rating = sum/this.comments.length;
+    this.newComment = null;
+    this.newRating = 5;
+    this.isCommentHidden = true;
+
   }
 
 }
